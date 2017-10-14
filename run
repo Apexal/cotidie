@@ -1,4 +1,5 @@
 #! /usr/bin/env bash
+source credentials.env
 export FLASK_APP=cotidie
 sudo pip install -e .
 flask run
