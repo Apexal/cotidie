@@ -7,5 +7,4 @@ import cotidie.auth
 
 @app.route("/")
 def index():
-    app.logger.debug('A value for debugging')
-    return "Hello World!"
+    return render_template('index.html')
