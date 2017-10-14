@@ -1,10 +1,10 @@
 #! /usr/bin/env python3
 
-from flask import Flask, render_template, session, redirect, url_for, request
+from flask import Flask, session, redirect, url_for, request
 app = Flask(__name__)
 
+from cotidie.database import db
 import cotidie.auth
+import cotidie.views
 
-@app.route("/")
-def index():
-    return render_template('index.html')
+db.create_all()

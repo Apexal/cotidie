@@ -103,3 +103,4 @@ ENV/
 
 .vscode
 credentials.env
+cotidie/data.db
