@@ -1,0 +1,13 @@
+{% extends "template.html" %}
+{% block title %}Actions{% endblock %}
+{% block content %}
+<section class="section">
+    <div class="container">    
+        <ul>
+            {% for a in actions %}
+                <li>{{ a.title }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+</section>
+{% endblock %}
