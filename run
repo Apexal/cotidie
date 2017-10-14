@@ -1,3 +1,4 @@
 #! /usr/bin/env bash
-export FLASK_APP=app.py
+export FLASK_APP=cotidie
+sudo pip install -e .
 flask run
