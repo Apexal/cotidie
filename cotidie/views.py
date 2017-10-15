@@ -3,6 +3,8 @@ from flask import request, render_template, redirect, url_for, flash
 from cotidie.database import *
 from cotidie.auth import *
 
+from datetime import datetime
+
 @app.route("/")
 def index():
     return render_template("index.html", is_home=True)
@@ -28,4 +30,12 @@ def add_action():
     flash('Successfully added new action.', 'success')
 
     return redirect(url_for('actions', action_id=new_action.id))
-    
+
+@app.route("/days")
+@app.route("/days/<string:date>")
+def days(date=None):
+    if date is None:
+        return redirect(url_for('days', date=datetime.today().strftime('%Y-%m-%d')))
+    else:
+        date = datetime.strptime(date, '%Y-%m-%d')
+        return render_template('day.html', date=date)
