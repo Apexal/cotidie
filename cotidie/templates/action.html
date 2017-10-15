@@ -3,8 +3,26 @@
 {% block content %}
 <section class="section">
     <div class="container">
-        <h1 class="title is-1">{{ action.title }}</h1>
-        <h2 class="subtitle">{{ action.description }}</h2>
+        <div class="columns">
+
+            <div class="column is-6">
+                <h1 class="title is-1">{{ action.title }}</h1>
+                <h2 class="subtitle">{{ action.description }}</h2>
+            </div>
+
+            <div class="column is-6">
+                <article class="tile is-child notification is-warning ">
+                    <p class="title is-5">Priority</p>
+                    <p class="subtitle">{{ action.priority }}</p>
+                </article>
+                <article class="tile is-child notification is-primary ">
+                    <p class="title is-5">Minimum Amount</p>
+                    <p class="subtitle">{{ action.min_amount }} time daily</p>
+                </article>
+            </div>
+        </div>
     </div>
+
+    
 </section>
 {% endblock %}
