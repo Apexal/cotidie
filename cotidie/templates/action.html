@@ -19,6 +19,10 @@
                     <p class="title is-5">Minimum Amount</p>
                     <p class="subtitle">{{ action.min_amount }} time daily</p>
                 </article>
+                <article class="tile is-child notification is-dark ">
+                    <p class="title is-5">Completed</p>
+                    <p class="subtitle">{{ completion_count }} times total</p>
+                </article>
             </div>
         </div>
 
@@ -26,7 +30,5 @@
             <button class="button is-large is-danger" type="submit">Remove Action</button>
         </form>
     </div>
-
-    
 </section>
 {% endblock %}

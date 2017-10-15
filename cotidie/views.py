@@ -20,7 +20,8 @@ def actions(action_id=None):
         return render_template("actions.html", actions=actions)
     else:
         action = Action.query.filter_by(id = action_id, user=request.authorization['username']).first()
-        return render_template("action.html", action=action)
+        completion_count = len([a for a in action.completions if a.user == request.authorization['username']])
+        return render_template("action.html", action=action, completion_count=completion_count)
 
 @app.route("/actions/add", methods=['POST'])
 @requires_auth
