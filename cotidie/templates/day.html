@@ -19,8 +19,7 @@
                                 <small class="is-pulled-right">{{ completions | length }} out of {{ action.min_amount }}</small>
                                 <div class="container">
                                     <h6 class="title is-4">
-                                        <a href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
-                                        
+                                        <a title="{{ action.description }}" href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
                                     </h6>
                                 </div>
                             </div>
@@ -74,6 +73,7 @@
                     <div class="card">
                         <section class="hero is-danger action-hero">
                             <div class="hero-body">
+                                <small class="is-pulled-right">>= {{ action.min_amount }}</small>
                                 <div class="container">
                                     <h6 class="title is-4">
                                         <a href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>

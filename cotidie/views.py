@@ -2,7 +2,8 @@ from cotidie import app
 from flask import request, render_template, redirect, url_for, flash
 from cotidie.database import *
 from cotidie.auth import *
-
+from sqlalchemy import desc
+from operator import attrgetter
 from datetime import datetime
 
 @app.route("/")
@@ -40,12 +41,12 @@ def days(date=None):
         completions = Completion.query.filter_by(date=date).all()
 
         # Group by action
-        actions = set([c.action for c in completions])
+        actions = sorted(set([c.action for c in completions]), key=attrgetter('priority', 'id'))
         groups = {}
         for a in actions:
             groups[a] = [c for c in completions if c.action == a]
         
-        unused_actions = [a for a in Action.query.all() if a not in actions]
+        unused_actions = [a for a in Action.query.order_by(desc(Action.priority)).all() if a not in actions]
 
         return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups, unused_actions=unused_actions)
 
