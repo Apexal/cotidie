@@ -25,5 +25,7 @@ def add_action():
     db.session.add(new_action)
     db.session.commit()
 
+    flash('Successfully added new action.', 'success')
+
     return redirect(url_for('actions', action_id=new_action.id))
     
