@@ -27,14 +27,24 @@
                         </section>
                         <div class="card-content">
                             <div class="content">
-                                
                                 <ol class="completion-comments">
                                     {% for c in completions %}
-                                        <li>{% if c.comments %}{{ c.comments }}{% else %}<i>No comment.</i>{% endif %}</li>    
+                                        <li>{% if c.comment %}{{ c.comment }}{% else %}<i>No comment.</i>{% endif %}</li>    
                                     {% endfor %}
                                 </ol>
 
                                 <progress class="progress is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-progress" value="{{ (completions | length / action.min_amount) * 100 }}" max="100">30%</progress>
+                                <form action="/days/{{ date.strftime('%Y-%m-%d') }}/completion" method="POST">
+                                    <div class="field has-addons">
+                                        <div class="control add-completion">
+                                            <input class="is-hidden" type="number" name="action_id" value="{{ action.id }}">
+                                            <input class="input" type="text" name="comment" placeholder="Comments for new completion.">
+                                        </div>
+                                        <div class="control">
+                                            <button type="submit" class="button is-{{ 'success' if completions | length >= action.min_amount else 'dark'}}">Add</button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -68,6 +78,18 @@
                             <div class="content">
                                 {{ action.description }}
                             </div>
+
+                            <form action="/days/{{ date.strftime('%Y-%m-%d') }}/completion" method="POST">
+                                <div class="field has-addons">
+                                    <div class="control add-completion">
+                                        <input class="is-hidden" type="number" name="action_id" value="{{ action.id }}">
+                                        <input class="input" type="text" name="comment" placeholder="Comments for new completion.">
+                                    </div>
+                                    <div class="control">
+                                        <button type="submit" class="button is-danger">Add</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>

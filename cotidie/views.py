@@ -48,3 +48,12 @@ def days(date=None):
         unused_actions = [a for a in Action.query.all() if a not in actions]
 
         return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups, unused_actions=unused_actions)
+
+@app.route("/days/<string:date>/completion", methods=["POST"])
+def add_completion(date):
+    f = request.form
+    new_completion = Completion(action_id=f['action_id'], date=datetime.strptime(date, "%Y-%m-%d"), comment=f["comment"])
+    db.session.add(new_completion)
+    db.session.commit()
+
+    return redirect(url_for("days", date=date))

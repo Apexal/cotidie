@@ -10,3 +10,7 @@ ol.completion-comments {
 .action-columns {
   overflow-x: hidden;
 }
+
+.add-completion {
+  width: 100%;
+}
