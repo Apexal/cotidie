@@ -23,6 +23,9 @@
                         <i class="fa fa-lg fa-github"></i>
                     </span>
                 </a>
+                {% if g.user %}
+                    <a class="navbar-item is-hidden-desktop-only" title="Logged in as {{ g.user }}" href="#"><b>{{ g.user }}</b></a>
+                {% endif %}
             </div>
         </div>
     </nav>

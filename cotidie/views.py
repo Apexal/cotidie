@@ -1,10 +1,14 @@
 from cotidie import app
-from flask import request, render_template, redirect, url_for, flash
+from flask import request, render_template, redirect, url_for, flash, g
 from cotidie.database import *
 from cotidie.auth import *
 from sqlalchemy import desc
 from operator import attrgetter
 from datetime import datetime, timedelta
+
+@app.before_request
+def before_request():
+   g.user = request.authorization['username'] if request.authorization else None
 
 @app.route("/")
 def index():
