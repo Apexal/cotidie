@@ -5,68 +5,96 @@
     <div class="container">
         <h1 class="title is-1">{{ date.strftime('%A %B %-m, %Y') }}</h1>
 
-        <div class="columns is-multiline action-columns">
-            {% for action, completions in groups.items() %}
-                <div class="column is-6">
-                    <div class="card">
-                        <div class="card-image">
-                            <figure>
-                                
-                            </figure>
-                        </div>
-                        <section class="hero is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-hero">
-                            <div class="hero-body">
-                                <small class="is-pulled-right">{{ completions | length }} out of {{ action.min_amount }}</small>
-                                <div class="container">
-                                    <h6 class="title is-4">
-                                        <a title="{{ action.description }}" href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
-                                    </h6>
-                                </div>
-                            </div>
-                        </section>
-                        <div class="card-content">
-                            <div class="content">
-                                <ol class="completion-comments">
-                                    {% for c in completions %}
-                                        <li>
-                                            {% if c.comment %}{{ c.comment }}{% else %}<i>No comment.</i>{% endif %}
-                                            
-                                            <form class="remove-completion" action="/days/{{ date.strftime('%Y-%m-%d') }}/remove" method="POST">
-                                                <button class="fa fa-times is-pulled-right" type="submit"></button>
-                                                <input class="is-hidden" type="number" name="completion_id" value="{{ c.id }}">
-                                            </form>
-                                        </li>    
-                                    {% endfor %}
-                                </ol>
+        <nav class="level">
+            <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">Actions Started</p>
+                <p class="title">{{ groups | length }}</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">Actions Completed</p>
+                <p class="title">-</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">Percent Complete</p>
+                <p class="title">-</p>
+                </div>
+            </div>
+            <div class="level-item has-text-centered">
+                <div>
+                <p class="heading">Actions Not Started</p>
+                <p class="title">{{ unused_actions | length }}</p>
+                </div>
+            </div>
+        </nav>
 
-                                <progress class="progress is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-progress" value="{{ (completions | length / action.min_amount) * 100 }}" max="100">30%</progress>
-                                <form action="/days/{{ date.strftime('%Y-%m-%d') }}/completion" method="POST">
-                                    <div class="field has-addons">
-                                        <div class="control add-completion">
-                                            <input class="is-hidden" type="number" name="action_id" value="{{ action.id }}">
-                                            <input class="input" type="text" name="comment" placeholder="Comments for new completion.">
-                                        </div>
-                                        <div class="control">
-                                            <button type="submit" class="button is-{{ 'success' if completions | length >= action.min_amount else 'dark'}}">Add</button>
-                                        </div>
+        {% if groups | length > 0 %}
+            <div class="columns is-multiline action-columns">
+                {% for action, completions in groups.items() %}
+                    <div class="column is-6">
+                        <div class="card">
+                            <div class="card-image">
+                                <figure>
+                                    
+                                </figure>
+                            </div>
+                            <section class="hero is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-hero">
+                                <div class="hero-body">
+                                    <small class="is-pulled-right">{{ completions | length }} out of {{ action.min_amount }}</small>
+                                    <div class="container">
+                                        <h6 class="title is-4">
+                                            <a title="{{ action.description }}" href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
+                                        </h6>
                                     </div>
-                                </form>
+                                </div>
+                            </section>
+                            <div class="card-content">
+                                <div class="content">
+                                    <ol class="completion-comments">
+                                        {% for c in completions %}
+                                            <li>
+                                                {% if c.comment %}{{ c.comment }}{% else %}<i>No comment.</i>{% endif %}
+                                                
+                                                <form class="remove-completion" action="/days/{{ date.strftime('%Y-%m-%d') }}/remove" method="POST">
+                                                    <button class="fa fa-times is-pulled-right" type="submit"></button>
+                                                    <input class="is-hidden" type="number" name="completion_id" value="{{ c.id }}">
+                                                </form>
+                                            </li>    
+                                        {% endfor %}
+                                    </ol>
+
+                                    <progress class="progress is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-progress" value="{{ (completions | length / action.min_amount) * 100 }}" max="100">30%</progress>
+                                    <form action="/days/{{ date.strftime('%Y-%m-%d') }}/completion" method="POST">
+                                        <div class="field has-addons">
+                                            <div class="control add-completion">
+                                                <input class="is-hidden" type="number" name="action_id" value="{{ action.id }}">
+                                                <input class="input" type="text" name="comment" placeholder="Comments for new completion.">
+                                            </div>
+                                            <div class="control">
+                                                <button type="submit" class="button is-{{ 'success' if completions | length >= action.min_amount else 'dark'}}">Add</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            {% endfor %}
-        </div>
-        
-        <b>{{ groups | length }} actions started</b>
+                {% endfor %}
+            </div>
+        {% endif %}
     </div>
 </section>
 
 <section class="section">
     <div class="container">
-        <hr>
-        <h1 class="title is-2">Not Started</h1>
-
+        {% if groups | length > 0 %}
+            <hr>
+            <br>
+        {% endif %}
         <div class="columns is-multiline action-columns">
             {% for action in unused_actions %}
                 <div class="column is-4">
@@ -102,8 +130,8 @@
                 </div>
             {% endfor %}
         </div>
-
-        <b>{{ unused_actions | length }} actions not started</b>
+        <hr>
+        <a class="button" href="#">Back to Top</a>
     </div>
 </section>
 {% endblock %}
