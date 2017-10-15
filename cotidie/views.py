@@ -37,5 +37,12 @@ def days(date=None):
     if date is None:
         return redirect(url_for('days', date=datetime.today().strftime('%Y-%m-%d')))
     else:
-        date = datetime.strptime(date, '%Y-%m-%d')
-        return render_template('day.html', date=date)
+        completions = Completion.query.filter_by(date=date).all()
+
+        # Group by action
+        actions = set([c.action for c in completions])
+        groups = {}
+        for a in actions:
+            groups[a] = [c for c in completions if c.action == a]
+        app.logger.debug(groups)
+        return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups)

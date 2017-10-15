@@ -3,7 +3,44 @@
 {% block content %}
 <section class="section">
     <div class="container">
-        <h1 class="title is-1">{{ date }}</h1>
+        <h1 class="title is-1">{{ date.strftime('%A %B %-m, %Y') }}</h1>
+
+        <div class="columns">
+            {% for action, completions in groups.items() %}
+                <div class="column is-one-third">
+                    <div class="card">
+                        <div class="card-image">
+                            <figure>
+                                <img src="http://via.placeholder.com/450x150?text={{ completions | length }}+out+of+{{ action.min_amount }}" alt="Placeholder image">
+                            </figure>
+                        </div>
+                        <section class="hero is-dark action-hero">
+                            <div class="hero-body">
+                                <div class="container">
+                                    <h6 class="title is-4">
+                                        <a href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
+                                    </h6>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="card-content">
+                            <div class="content">
+                                
+                                <ol class="completion-comments">
+                                    {% for c in completions %}
+                                        <li>{% if c.comments %}{{ c.comments }}{% else %}<i>No comment.</i>{% endif %}</li>    
+                                    {% endfor %}
+                                </ol>
+
+                                <progress class="progress is-dark action-progress" value="15" max="100">30%</progress>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <b>{{ groups | length }} actions total</b>
     </div>
 </section>
 {% endblock %}
