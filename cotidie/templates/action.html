@@ -21,6 +21,10 @@
                 </article>
             </div>
         </div>
+
+        <form action="/actions/{{ action.id }}/remove" method="POST" onsubmit="return confirm('Are you sure you want to remove this action? It cannot be undeleted.');">
+            <button class="button is-large is-danger" type="submit">Remove Action</button>
+        </form>
     </div>
 
     

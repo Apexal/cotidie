@@ -33,6 +33,17 @@ def add_action():
 
     return redirect(url_for('actions', action_id=new_action.id))
 
+@app.route("/actions/<int:action_id>/remove", methods=['POST'])
+@requires_auth
+def remove_action(action_id):
+    action = Action.query.get(action_id)
+    db.session.delete(action)
+    db.session.commit()
+
+    flash('Successfully deleted action.', 'warning')
+
+    return redirect(url_for('actions'))
+
 @app.route("/days")
 @app.route("/days/<string:date>")
 @requires_auth
