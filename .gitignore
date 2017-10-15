@@ -105,3 +105,4 @@ ENV/
 credentials.env
 cotidie/data.db
 cotidie/data.db-journal
+users.txt

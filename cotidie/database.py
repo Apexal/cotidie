@@ -9,6 +9,7 @@ db = SQLAlchemy(app)
 # Models
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(100), nullable=False)
     title = db.Column(db.String(80), unique=True, nullable=False)
     description = db.Column(db.String(80), nullable=False)
     priority = db.Column(db.SmallInteger, default=0)
@@ -16,6 +17,7 @@ class Action(db.Model):
 
 class Completion(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    user = db.Column(db.String(100), nullable=False)
     action_id = db.Column(db.Integer, db.ForeignKey('action.id'),
         nullable=False)
     action = db.relationship('Action',

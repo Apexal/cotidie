@@ -2,8 +2,12 @@ import os
 from functools import wraps
 from flask import request, Response
 
+users = {}
+with open("users.txt") as f:
+    users = dict([f.strip().split(":") for f in f.readlines()])
+
 def check_auth(username, password):
-    return username == os.environ['USERNAME'] and password == os.environ['PASSWORD']
+    return users[username] == password
 
 def authenticate():
     """Sends a 401 response that enables basic auth"""
