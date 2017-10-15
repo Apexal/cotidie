@@ -44,5 +44,7 @@ def days(date=None):
         groups = {}
         for a in actions:
             groups[a] = [c for c in completions if c.action == a]
-        app.logger.debug(groups)
-        return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups)
+        
+        unused_actions = [a for a in Action.query.all() if a not in actions]
+
+        return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups, unused_actions=unused_actions)

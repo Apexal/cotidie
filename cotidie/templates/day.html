@@ -5,20 +5,22 @@
     <div class="container">
         <h1 class="title is-1">{{ date.strftime('%A %B %-m, %Y') }}</h1>
 
-        <div class="columns">
+        <div class="columns is-multiline action-columns">
             {% for action, completions in groups.items() %}
-                <div class="column is-one-third">
+                <div class="column is-6">
                     <div class="card">
                         <div class="card-image">
                             <figure>
-                                <img src="http://via.placeholder.com/450x150?text={{ completions | length }}+out+of+{{ action.min_amount }}" alt="Placeholder image">
+                                
                             </figure>
                         </div>
-                        <section class="hero is-dark action-hero">
+                        <section class="hero is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-hero">
                             <div class="hero-body">
+                                <small class="is-pulled-right">{{ completions | length }} out of {{ action.min_amount }}</small>
                                 <div class="container">
                                     <h6 class="title is-4">
                                         <a href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
+                                        
                                     </h6>
                                 </div>
                             </div>
@@ -32,7 +34,39 @@
                                     {% endfor %}
                                 </ol>
 
-                                <progress class="progress is-dark action-progress" value="15" max="100">30%</progress>
+                                <progress class="progress is-{{ 'success' if completions | length >= action.min_amount else 'dark'}} action-progress" value="{{ (completions | length / action.min_amount) * 100 }}" max="100">30%</progress>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <b>{{ groups | length }} actions started</b>
+    </div>
+</section>
+
+<section class="section">
+    <div class="container">
+        <hr>
+        <h1 class="title is-2">Not Started</h1>
+
+        <div class="columns is-multiline action-columns">
+            {% for action in unused_actions %}
+                <div class="column is-4">
+                    <div class="card">
+                        <section class="hero is-danger action-hero">
+                            <div class="hero-body">
+                                <div class="container">
+                                    <h6 class="title is-4">
+                                        <a href="{{ url_for('actions', action_id=action.id) }}">{{ action.title }}</a>
+                                    </h6>
+                                </div>
+                            </div>
+                        </section>
+                        <div class="card-content">
+                            <div class="content">
+                                {{ action.description }}
                             </div>
                         </div>
                     </div>
@@ -40,7 +74,7 @@
             {% endfor %}
         </div>
 
-        <b>{{ groups | length }} actions total</b>
+        <b>{{ unused_actions | length }} actions not started</b>
     </div>
 </section>
 {% endblock %}

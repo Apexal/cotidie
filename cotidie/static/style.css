@@ -6,3 +6,7 @@ ol.completion-comments {
   margin: 0;
   margin-left: 0.5rem;
 }
+
+.action-columns {
+  overflow-x: hidden;
+}
