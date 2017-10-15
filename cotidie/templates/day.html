@@ -29,7 +29,14 @@
                             <div class="content">
                                 <ol class="completion-comments">
                                     {% for c in completions %}
-                                        <li>{% if c.comment %}{{ c.comment }}{% else %}<i>No comment.</i>{% endif %}</li>    
+                                        <li>
+                                            {% if c.comment %}{{ c.comment }}{% else %}<i>No comment.</i>{% endif %}
+                                            
+                                            <form class="remove-completion" action="/days/{{ date.strftime('%Y-%m-%d') }}/remove" method="POST">
+                                                <button class="fa fa-times is-pulled-right" type="submit"></button>
+                                                <input class="is-hidden" type="number" name="completion_id" value="{{ c.id }}">
+                                            </form>
+                                        </li>    
                                     {% endfor %}
                                 </ol>
 

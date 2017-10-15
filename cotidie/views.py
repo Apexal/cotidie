@@ -57,3 +57,12 @@ def add_completion(date):
     db.session.commit()
 
     return redirect(url_for("days", date=date))
+
+@app.route("/days/<string:date>/remove", methods=["POST"])
+def remove_completion(date):
+    f = request.form
+    c = Completion.query.get(f['completion_id'])
+    db.session.delete(c)
+    db.session.commit()
+
+    return redirect(url_for("days", date=date))
