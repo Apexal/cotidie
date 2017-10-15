@@ -8,6 +8,18 @@
             <div class="column is-6">
                 <h1 class="title is-1">{{ action.title }}</h1>
                 <h2 class="subtitle">{{ action.description }}</h2>
+
+                <form action="/days/{{ today.strftime('%Y-%m-%d') }}/completion" method="POST">
+                    <div class="field has-addons">
+                        <div class="control add-completion">
+                            <input class="is-hidden" type="number" name="action_id" value="{{ action.id }}">
+                            <input class="input" type="text" name="comment" placeholder="Comments for new completion.">
+                        </div>
+                        <div class="control">
+                            <button type="submit" class="button is-primary">Add for Today</button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
             <div class="column is-6">

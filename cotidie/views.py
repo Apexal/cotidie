@@ -21,7 +21,7 @@ def actions(action_id=None):
     else:
         action = Action.query.filter_by(id = action_id, user=request.authorization['username']).first()
         completion_count = len([a for a in action.completions if a.user == request.authorization['username']])
-        return render_template("action.html", action=action, completion_count=completion_count)
+        return render_template("action.html", action=action, completion_count=completion_count, today=datetime.today())
 
 @app.route("/actions/add", methods=['POST'])
 @requires_auth
