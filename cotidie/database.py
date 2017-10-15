@@ -20,5 +20,5 @@ class Completion(db.Model):
         nullable=False)
     action = db.relationship('Action',
         backref=db.backref('completions', lazy=True))
-    datetime = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date = db.Column(db.Date, nullable=False, default=datetime.now)
     comments = db.Column(db.String(300))
