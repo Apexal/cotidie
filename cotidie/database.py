@@ -9,6 +9,6 @@ db = SQLAlchemy(app)
 class Action(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(80), unique=True, nullable=False)
-    description = db.Column(db.String(80), unique=True, nullable=False)
+    description = db.Column(db.String(80), nullable=False)
     priority = db.Column(db.SmallInteger, default=0)
     min_amount = db.Column(db.SmallInteger, default=1)
