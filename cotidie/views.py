@@ -4,7 +4,7 @@ from cotidie.database import *
 from cotidie.auth import *
 from sqlalchemy import desc
 from operator import attrgetter
-from datetime import datetime
+from datetime import datetime, timedelta
 
 @app.route("/")
 def index():
@@ -22,6 +22,7 @@ def actions(action_id=None):
         return render_template("action.html", action=action)
 
 @app.route("/actions/add", methods=['POST'])
+@requires_auth
 def add_action():
     f = request.form
     new_action = Action(title=f['title'], description=f['description'], priority=f['priority'], min_amount=f['min_amount'])
@@ -34,6 +35,7 @@ def add_action():
 
 @app.route("/days")
 @app.route("/days/<string:date>")
+@requires_auth
 def days(date=None):
     if date is None:
         return redirect(url_for('days', date=datetime.today().strftime('%Y-%m-%d')))
@@ -47,10 +49,11 @@ def days(date=None):
             groups[a] = [c for c in completions if c.action == a]
         
         unused_actions = [a for a in Action.query.order_by(desc(Action.priority)).all() if a not in actions]
-
-        return render_template('day.html', date=datetime.strptime(date, '%Y-%m-%d'), groups=groups, unused_actions=unused_actions)
+        date=datetime.strptime(date, '%Y-%m-%d')
+        return render_template('day.html', date=date, prev_date=date-timedelta(1), next_date=date+timedelta(1), groups=groups, unused_actions=unused_actions)
 
 @app.route("/days/<string:date>/completion", methods=["POST"])
+@requires_auth
 def add_completion(date):
     f = request.form
     new_completion = Completion(action_id=f['action_id'], date=datetime.strptime(date, "%Y-%m-%d"), comment=f["comment"])
@@ -60,6 +63,7 @@ def add_completion(date):
     return redirect(url_for("days", date=date))
 
 @app.route("/days/<string:date>/remove", methods=["POST"])
+@requires_auth
 def remove_completion(date):
     f = request.form
     c = Completion.query.get(f['completion_id'])

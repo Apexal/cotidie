@@ -1,9 +1,20 @@
 {% extends "template.html" %}
-{% block title %}{{ date }}{% endblock %}
+{% block title %}{{ date.strftime('%a %b %-m, %Y') }}{% endblock %}
 {% block content %}
 <section class="section">
     <div class="container">
-        <h1 class="title is-1">{{ date.strftime('%A %B %-m, %Y') }}</h1>
+        <a class="button is-pulled-left" href="{{ url_for('days', date=prev_date.strftime('%Y-%m-%d')) }}">
+            <span class="icon is-small">
+                <i class="fa fa-caret-left"></i>
+            </span>
+        </a>
+        <a class="button is-pulled-right" href="{{ url_for('days', date=next_date.strftime('%Y-%m-%d')) }}">
+            <span class="icon is-small">
+                <i class="fa fa-caret-right"></i>
+            </span>
+        </a>
+
+        <h1 class="title is-1 has-text-centered">{{ date.strftime('%a %b %-d, %Y') }}</h1>
 
         <nav class="level">
             <div class="level-item has-text-centered">
