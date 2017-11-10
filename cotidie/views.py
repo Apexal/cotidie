@@ -5,6 +5,7 @@ from cotidie.auth import *
 from sqlalchemy import desc
 from operator import attrgetter
 from datetime import datetime, timedelta
+import collections
 
 @app.before_request
 def before_request():
@@ -64,10 +65,10 @@ def days(date=None):
         groups = {}
         for a in actions:
             groups[a] = [c for c in completions if c.action == a]
-        
+
         unused_actions = [a for a in Action.query.filter_by(user=request.authorization['username']).order_by(desc(Action.priority)).all() if a not in actions]
         date=datetime.strptime(date, '%Y-%m-%d')
-        return render_template('day.html', date=date, prev_date=date-timedelta(1), next_date=date+timedelta(1), groups=groups, unused_actions=unused_actions)
+        return render_template('day.html', date=date, prev_date=date-timedelta(1), next_date=date+timedelta(1), actions=actions, groups=groups, unused_actions=unused_actions)
 
 @app.route("/days/<string:date>/completion", methods=["POST"])
 @requires_auth

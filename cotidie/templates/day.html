@@ -45,7 +45,8 @@
 
         {% if groups | length > 0 %}
             <div class="columns is-multiline action-columns">
-                {% for action, completions in groups.items() %}
+                {% for action in actions %}
+                    {% set completions = groups[action] %}
                     <div class="column is-6">
                         <div class="card">
                             <div class="card-image">
