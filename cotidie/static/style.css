@@ -1,3 +1,21 @@
+html {
+  height:100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+main {
+  flex: 1 0 auto;
+}
+
+footer {
+  flex-shrink: 0;
+}
+
 .hero.action-hero .hero-body {
   padding: 1rem 1.5rem;
 }
@@ -26,4 +44,9 @@ ol.completion-comments {
   margin:0;
   padding:0;
   color: #222;
+}
+
+textarea[name="description"] {
+  min-height: 100px;
+  max-height: 300px;
 }
