@@ -1,0 +1,40 @@
+<div class="column is-one-third box">
+    <h2 class="title is-3">Add Action</h2> 
+    <form action="/actions/add" method="POST">
+        <div class="field">
+            <label class="label">Title</label>
+            <div class="control">
+                <input class="input" type="text" name="title" placeholder="Action Title" required>
+            </div>
+        </div>
+
+        <div class="field">
+            <label class="label">Description</label>
+            <div class="control">
+                <textarea class="textarea" name="description" placeholder="e.g. Hello world" rows=2></textarea>
+            </div>
+        </div>
+
+        <div class="columns">
+            <div class="column is-one-half">
+                <div class="field">
+                    <label class="label">Priority</label>
+                    <div class="control">
+                        <input class="input" type="number" name="priority" placeholder="0" value=0 min=0 max=10 required>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-one-half">
+                <div class="field">
+                    <label class="label">Minimum Amount</label>
+                    <div class="control">
+                        <input class="input" type="number" name="min_amount" placeholder="1" value=1 min=1 max=20 required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button class="button is-primary" type="submit">Add</button>
+    </form>
+</div>
